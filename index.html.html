@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doceria da May — Bolos no Pote & Trufas Recheadas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pink: { 50:'#fff0f6',100:'#fce4ec',200:'#f8bbd0',300:'#f48fb1',400:'#f06292',500:'#e84393',600:'#d63384',700:'#c2185b',800:'#ad1457',900:'#880e4f' },
+                        brown: { 50:'#faf6f3',100:'#efe9e3',200:'#d7ccc8',300:'#bcaaa4',400:'#a1887f',500:'#8d6e63',600:'#6d4c41',700:'#5d4037',800:'#4e342e',900:'#3e2723' },
+                        cream: '#fffaf5',
+                    },
+                    fontFamily: { inter: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        *{font-family:'Inter',sans-serif}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+        @keyframes float-delay{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+        @keyframes pulse-glow{0%,100%{box-shadow:0 0 20px rgba(232,67,147,.2)}50%{box-shadow:0 0 40px rgba(232,67,147,.4)}}
+        @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+        @keyframes heartBeat{0%,100%{transform:scale(1)}15%{transform:scale(1.15)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+        @keyframes dropBounce{0%{transform:scale(0) rotate(-20deg)}50%{transform:scale(1.3) rotate(5deg)}70%{transform:scale(.9) rotate(-2deg)}100%{transform:scale(1) rotate(0)}}
+        @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+        @keyframes confetti{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) scale(0)}}
+        @keyframes cartBounce{0%{transform:scale(1)}30%{transform:scale(1.25)}50%{transform:scale(.9)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+        @keyframes badgePop{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+        .animate-float{animation:float 4s ease-in-out infinite}
+        .animate-float-delay{animation:float-delay 5s ease-in-out infinite}
+        .animate-pulse-glow{animation:pulse-glow 3s ease-in-out infinite}
+        .animate-fade-in-up{animation:fadeInUp .8s ease-out forwards}
+        .animate-scale-in{animation:scaleIn .6s ease-out forwards}
+        .animate-heartbeat{animation:heartBeat 2s ease-in-out infinite}
+        .shimmer-text{background:linear-gradient(90deg,#e84393 0%,#f48fb1 25%,#6d4c41 50%,#f48fb1 75%,#e84393 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+        .glass-card{background:rgba(255,255,255,.75);backdrop-filter:blur(16px);border:1px solid rgba(232,67,147,.12)}
+        .product-card:hover .product-img{transform:scale(1.08)}
+        .hero-gradient{background:radial-gradient(ellipse at 30% 20%,rgba(232,67,147,.08) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(109,76,65,.06) 0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(248,187,208,.1) 0%,transparent 60%)}
+        .btn-primary{background:linear-gradient(135deg,#e84393,#d63384);transition:all .3s ease}
+        .btn-primary:hover{background:linear-gradient(135deg,#d63384,#c2185b);transform:translateY(-2px);box-shadow:0 8px 25px rgba(232,67,147,.35)}
+        .btn-secondary{background:linear-gradient(135deg,#6d4c41,#5d4037);transition:all .3s ease}
+        .btn-secondary:hover{background:linear-gradient(135deg,#5d4037,#4e342e);transform:translateY(-2px);box-shadow:0 8px 25px rgba(109,76,65,.35)}
+        .scroll-reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .scroll-reveal.visible{opacity:1;transform:translateY(0)}
+        .whatsapp-float{position:fixed;bottom:24px;right:24px;z-index:999;animation:pulse-glow 3s ease-in-out infinite}
+        .toast{position:fixed;bottom:90px;right:24px;z-index:1000;transform:translateY(20px);opacity:0;transition:all .4s ease;pointer-events:none}
+        .toast.show{transform:translateY(0);opacity:1;pointer-events:auto}
+        .modal-overlay{position:fixed;inset:0;background:rgba(62,39,35,.5);backdrop-filter:blur(4px);z-index:1001;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease}
+        .modal-overlay.active{opacity:1;pointer-events:auto}
+        .modal-content{transform:scale(.9) translateY(20px);transition:transform .3s ease}
+        .modal-overlay.active .modal-content{transform:scale(1) translateY(0)}
+        ::selection{background:rgba(232,67,147,.2);color:#880e4f}
+        #drop-zone{position:relative;border:2px dashed transparent;border-radius:24px;transition:all .3s ease}
+        #drop-zone.drag-over{border-color:#e84393;background:rgba(232,67,147,.05)}
+        .topping-btn{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;background:white;border:2px solid rgba(232,67,147,.15);cursor:grab;transition:all .2s ease;user-select:none;-webkit-user-select:none}
+        .topping-btn:hover{transform:scale(1.15) rotate(-5deg);border-color:#e84393;box-shadow:0 4px 15px rgba(232,67,147,.25)}
+        .topping-btn:active{cursor:grabbing;transform:scale(.95)}
+        .topping-btn.selected{border-color:#e84393;background:#fff0f6;box-shadow:0 0 0 3px rgba(232,67,147,.2)}
+        .placed-topping{position:absolute;pointer-events:auto;cursor:grab;animation:dropBounce .5s cubic-bezier(.68,-.55,.27,1.55) forwards;z-index:10;font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.15));transition:transform .15s ease}
+        .placed-topping:hover{transform:scale(1.2);z-index:20}
+        .placed-topping.dragging-placed{opacity:.5;transform:scale(1.3)}
+        .floating-emoji{position:fixed;pointer-events:none;z-index:9999;font-size:28px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));transition:none}
+        .game-msg{transition:all .3s ease;min-height:24px}
+        .confetti-particle{position:absolute;pointer-events:none;font-size:16px;animation:confetti .8s ease-out forwards}
+        .toppings-tray{background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(255,240,246,.9));backdrop-filter:blur(10px);border:1px solid rgba(232,67,147,.1);border-radius:20px}
+        #floating-cart{position:fixed;bottom:24px;left:24px;z-index:999;opacity:0;transform:translateY(100px) scale(.8);pointer-events:none;transition:all .5s cubic-bezier(.68,-.55,.27,1.55)}
+        #floating-cart.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+        #floating-cart.bounce{animation:cartBounce .5s ease}
+        #floating-cart .cart-badge{animation:badgePop .3s ease}
+    </style>
+</head>
+<body class="bg-cream text-brown-900 overflow-x-hidden">
+
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:rgba(255,250,245,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(232,67,147,.08)">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#hero" class="flex items-center gap-3 group"><img src="https://z-cdn-media.chatglm.cn/files/d9351d99-d8a1-49c9-85f5-90b23370e66f.png?auth_key=1879971177-2e6c197e94714cb8956a59ea4f7b6bf5-0-01c05c7a1be1ec35684827fcff9e247e" alt="Doces da May" class="h-12 w-auto rounded-full transition-transform duration-300 group-hover:scale-110"></a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#sobre" class="text-sm font-medium text-brown-600 hover:text-pink-500 transition-colors duration-200">Sobre</a>
+                <a href="#produtos" class="text-sm font-medium text-brown-600 hover:text-pink-500 transition-colors duration-200">Produtos</a>
+                <a href="#avaliacoes" class="text-sm font-medium text-brown-600 hover:text-pink-500 transition-colors duration-200">Avaliações</a>
+                <a href="#contato" class="text-sm font-medium text-brown-600 hover:text-pink-500 transition-colors duration-200">Contato</a>
+                <button onclick="openModal()" class="btn-primary text-white text-sm font-medium px-6 py-2.5 rounded-full">Peça Agora</button>
+            </div>
+            <button class="md:hidden text-brown-600 p-2" onclick="toggleMobileMenu()"><i data-lucide="menu" class="w-6 h-6"></i></button>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-white/95 backdrop-blur-xl border-t border-pink-100">
+            <div class="px-6 py-4 flex flex-col gap-3">
+                <a href="#sobre" onclick="closeMobileMenu()" class="text-sm font-medium text-brown-600 py-2">Sobre</a>
+                <a href="#produtos" onclick="closeMobileMenu()" class="text-sm font-medium text-brown-600 py-2">Produtos</a>
+                <a href="#avaliacoes" onclick="closeMobileMenu()" class="text-sm font-medium text-brown-600 py-2">Avaliações</a>
+                <a href="#contato" onclick="closeMobileMenu()" class="text-sm font-medium text-brown-600 py-2">Contato</a>
+                <button onclick="openModal();closeMobileMenu()" class="btn-primary text-white text-sm font-medium px-6 py-2.5 rounded-full w-full mt-2">Peça Agora</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero" class="relative min-h-screen flex items-center pt-16 hero-gradient">
+        <div class="absolute top-20 left-10 w-20 h-20 bg-pink-200/30 rounded-full blur-2xl animate-float"></div>
+        <div class="absolute bottom-32 right-16 w-32 h-32 bg-brown-200/20 rounded-full blur-3xl animate-float-delay"></div>
+        <div class="absolute top-1/3 right-1/4 w-16 h-16 bg-pink-100/40 rounded-full blur-xl animate-float"></div>
+        <div class="max-w-7xl mx-auto px-6 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-fade-in-up">
+                    <div class="inline-flex items-center gap-2 bg-pink-50 border border-pink-200 rounded-full px-4 py-1.5 mb-6"><span class="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></span><span class="text-xs font-medium text-pink-600 uppercase tracking-wider">Feito com amor</span><span class="text-pink-400 animate-heartbeat">♥</span></div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6"><span class="text-brown-900">Doces que</span><br><span class="shimmer-text">derretem o</span><br><span class="text-brown-900">coração</span><span class="text-pink-500 animate-heartbeat inline-block ml-2">♥</span></h1>
+                    <p class="text-lg text-brown-500 font-light leading-relaxed mb-8 max-w-md">Bolos no pote e trufas recheadas feitos artesanalmente com ingredientes selecionados. Cada mordida é uma experiência única de sabor.</p>
+                    <div class="flex flex-wrap gap-4 mb-10">
+                        <button onclick="openModal()" class="btn-primary text-white font-medium px-8 py-3.5 rounded-full flex items-center gap-2 text-sm"><i data-lucide="shopping-bag" class="w-4 h-4"></i> Fazer Pedido</button>
+                        <a href="#produtos" class="btn-secondary text-white font-medium px-8 py-3.5 rounded-full flex items-center gap-2 text-sm"><i data-lucide="cake" class="w-4 h-4"></i> Ver Cardápio</a>
+                    </div>
+                    <div class="flex gap-8">
+                        <div><div class="text-2xl font-bold text-brown-800">2k+</div><div class="text-xs text-brown-400 mt-0.5">Clientes felizes</div></div>
+                        <div class="w-px bg-brown-200"></div>
+                        <div><div class="text-2xl font-bold text-brown-800">15+</div><div class="text-xs text-brown-400 mt-0.5">Sabores únicos</div></div>
+                        <div class="w-px bg-brown-200"></div>
+                        <div><div class="text-2xl font-bold text-brown-800">5.0</div><div class="text-xs text-brown-400 mt-0.5 flex items-center gap-1"><i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></i> Avaliação</div></div>
+                    </div>
+                </div>
+                <div class="flex justify-center lg:justify-end animate-scale-in">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-pink-200/40 to-brown-200/30 rounded-full blur-3xl scale-110"></div>
+                        <div class="relative" id="game-container">
+                            <div class="absolute -top-4 -right-4 bg-white rounded-2xl shadow-lg p-3 animate-float-delay border border-pink-100 z-20"><div class="flex items-center gap-2"><span class="text-2xl" style="animation:wiggle 2s ease-in-out infinite">🎮</span><div><div class="text-xs font-semibold text-brown-700">Decore seu bolo!</div><div class="text-[10px] text-brown-400">Arraste os toppings</div></div></div></div>
+                            <div class="absolute -bottom-2 -left-6 bg-white rounded-2xl shadow-lg p-3 animate-float border border-pink-100 z-20"><div class="flex items-center gap-2"><span class="text-2xl">🎨</span><div><div class="text-xs font-semibold text-brown-700">Decorações</div><div class="text-[10px] text-brown-400"><span id="deco-count">0</span> colocadas</div></div></div></div>
+                            <div id="drop-zone" class="w-72 h-72 sm:w-80 sm:h-80 rounded-3xl overflow-hidden relative bg-white/30"><img src="https://z-cdn-media.chatglm.cn/files/d9351d99-d8a1-49c9-85f5-90b23370e66f.png?auth_key=1879971177-2e6c197e94714cb8956a59ea4f7b6bf5-0-01c05c7a1be1ec35684827fcff9e247e" alt="Bolo no Pote" class="w-full h-full object-contain pointer-events-none select-none"></div>
+                            <div class="game-msg text-center mt-3 mb-2"><span id="game-message" class="text-xs font-medium text-pink-500">👆 Arraste os doces para o bolo!</span></div>
+                            <div class="toppings-tray p-3 flex flex-wrap justify-center gap-2 max-w-xs mx-auto">
+                                <button class="topping-btn" data-topping="🍓">🍓</button><button class="topping-btn" data-topping="🍫">🍫</button><button class="topping-btn" data-topping="💖">💖</button><button class="topping-btn" data-topping="🍒">🍒</button><button class="topping-btn" data-topping="🍪">🍪</button><button class="topping-btn" data-topping="🌟">🌟</button><button class="topping-btn" data-topping="🫐">🫐</button><button class="topping-btn" data-topping="🎀">🎀</button><button class="topping-btn" data-topping="✨">✨</button><button class="topping-btn" data-topping="🧁">🧁</button>
+                            </div>
+                            <div class="text-center mt-3"><button onclick="resetGame()" class="text-xs text-brown-400 hover:text-pink-500 transition-colors flex items-center gap-1 mx-auto"><i data-lucide="rotate-ccw" class="w-3 h-3"></i> Limpar decorações</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"><span class="text-[10px] text-brown-400 uppercase tracking-widest">Scroll</span><div class="w-5 h-8 border-2 border-brown-300 rounded-full flex justify-center pt-1.5"><div class="w-1 h-2 bg-pink-400 rounded-full animate-bounce"></div></div></div>
+    </section>
+
+    <!-- About -->
+    <section id="sobre" class="py-24 bg-white relative">
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pink-200 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="scroll-reveal relative"><div class="relative rounded-3xl overflow-hidden shadow-2xl"><img src="https://z-cdn-media.chatglm.cn/files/7938dcdc-8e9b-43fd-95ce-6117166c45fa.png?auth_key=1879971945-b2027a57985d45198f5d0c1be579b517-0-b951b55aea67dd6a495189ad2c93907c" alt="Mayza" class="w-full h-[500px] object-cover object-top"><div class="absolute inset-0 bg-gradient-to-t from-brown-900/40 to-transparent"></div><div class="absolute bottom-6 left-6 right-6"><div class="glass-card rounded-2xl p-4 flex items-center gap-4"><div class="w-12 h-12 bg-pink-500 rounded-xl flex items-center justify-center flex-shrink-0"><i data-lucide="heart" class="w-6 h-6 text-white"></i></div><div><div class="text-sm font-semibold text-brown-800">Feito com carinho</div><div class="text-xs text-brown-500">Cada doce conta uma história de amor pela confeitaria</div></div></div></div></div><div class="absolute -z-10 -top-4 -left-4 w-full h-full rounded-3xl border-2 border-pink-200"></div></div>
+                <div class="scroll-reveal" style="transition-delay:.2s">
+                    <div class="inline-flex items-center gap-2 bg-pink-50 rounded-full px-4 py-1.5 mb-4"><span class="text-xs font-medium text-pink-600 uppercase tracking-wider">Nossa História</span></div>
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-brown-900 mb-6">Conheça a <span class="text-pink-500">Mayza</span></h2>
+                    <p class="text-brown-500 font-light leading-relaxed mb-6">Tudo começou na cozinha de casa, onde a Mayza transformava receitas da família em verdadeiras obras de arte comestíveis. O que era um hobby se tornou paixão, e a paixão virou a <strong class="text-brown-700 font-medium">Doceria da May</strong>.</p>
+                    <p class="text-brown-500 font-light leading-relaxed mb-8">Cada bolo no pote e cada trufa recheada carrega o toque especial de alguém que faz doces com o mesmo cuidado que faz para a própria família. Ingredientes frescos, sem conservantes artificiais e muito, muito amor.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-start gap-3 p-4 rounded-2xl bg-pink-50/50 border border-pink-100"><div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="leaf" class="w-5 h-5 text-pink-500"></i></div><div><div class="text-sm font-semibold text-brown-800">Ingredientes Naturais</div><div class="text-xs text-brown-400 mt-0.5">Sem conservantes</div></div></div>
+                        <div class="flex items-start gap-3 p-4 rounded-2xl bg-brown-50/50 border border-brown-100"><div class="w-10 h-10 bg-brown-100 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="hand-metal" class="w-5 h-5 text-brown-600"></i></div><div><div class="text-sm font-semibold text-brown-800">100% Artesanal</div><div class="text-xs text-brown-400 mt-0.5">Feito à mão</div></div></div>
+                        <div class="flex items-start gap-3 p-4 rounded-2xl bg-pink-50/50 border border-pink-100"><div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="truck" class="w-5 h-5 text-pink-500"></i></div><div><div class="text-sm font-semibold text-brown-800">Entrega Rápida</div><div class="text-xs text-brown-400 mt-0.5">Na sua porta</div></div></div>
+                        <div class="flex items-start gap-3 p-4 rounded-2xl bg-brown-50/50 border border-brown-100"><div class="w-10 h-10 bg-brown-100 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="gift" class="w-5 h-5 text-brown-600"></i></div><div><div class="text-sm font-semibold text-brown-800">Embalagem Premium</div><div class="text-xs text-brown-400 mt-0.5">Perfeita para presentear</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="produtos" class="py-24 bg-cream relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-reveal">
+                <div class="inline-flex items-center gap-2 bg-pink-50 rounded-full px-4 py-1.5 mb-4"><span class="text-xs font-medium text-pink-600 uppercase tracking-wider">Nosso Cardápio</span></div>
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-brown-900 mb-4">Escolha sua <span class="text-pink-500">tentação</span></h2>
+                <p class="text-brown-500 font-light max-w-lg mx-auto">Cada produto é feito com cuidado artesanal e ingredientes de primeira qualidade</p>
+            </div>
+            <div class="flex justify-center gap-3 mb-12 scroll-reveal">
+                <button onclick="filterProducts('todos')" class="filter-btn active-filter text-sm font-medium px-6 py-2.5 rounded-full transition-all duration-300 bg-pink-500 text-white" data-filter="todos">Todos</button>
+                <button onclick="filterProducts('bolo')" class="filter-btn text-sm font-medium px-6 py-2.5 rounded-full transition-all duration-300 bg-white text-brown-600 border border-brown-200 hover:border-pink-300 hover:text-pink-500" data-filter="bolo">Bolos no Pote</button>
+                <button onclick="filterProducts('trufa')" class="filter-btn text-sm font-medium px-6 py-2.5 rounded-full transition-all duration-300 bg-white text-brown-600 border border-brown-200 hover:border-pink-300 hover:text-pink-500" data-filter="trufa">Trufas</button>
+            </div>
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Bolo Chocolate R$10 -->
+                <div class="product-card scroll-reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-pink-50" data-category="bolo"><div class="relative overflow-hidden aspect-[4/3]"><img src="https://z-cdn-media.chatglm.cn/files/6adcd2f6-5ee1-4401-87ae-7a3265e1d8f5.png?auth_key=1879973602-1a0c67d51ee5493fb573263e0601c9bc-0-95ab812fe02316fd9dcb905b70926389" alt="Bolo no Pote de Chocolate" class="product-img w-full h-full object-cover transition-transform duration-700"><div class="absolute top-4 left-4 bg-pink-500 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Mais Vendido</div><div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></div><div class="p-6"><div class="flex items-center gap-2 mb-2"><span class="text-[10px] font-medium text-pink-500 uppercase tracking-wider">Bolo no Pote</span><span class="text-brown-300">•</span><span class="flex items-center gap-0.5 text-[10px] text-yellow-600"><i data-lucide="star" class="w-3 h-3 fill-yellow-500 text-yellow-500"></i> 4.9</span></div><h3 class="text-lg font-semibold text-brown-800 mb-1">Chocolate</h3><p class="text-sm text-brown-400 font-light mb-4">Camadas de bolo de chocolate com ganache belga e chantilly</p><div class="flex items-center justify-between"><div><span class="text-xl font-bold text-pink-500">R$ 10,00</span><span class="text-xs text-brown-400 ml-1">/ unidade</span></div><button onclick="addToCart('Bolo Chocolate',10)" class="w-10 h-10 bg-pink-50 hover:bg-pink-500 text-pink-500 hover:text-white rounded-xl flex items-center justify-center transition-all duration-300"><i data-lucide="plus" class="w-5 h-5"></i></button></div></div></div>
+
+                <!-- Bolo Morango R$14 -->
+                <div class="product-card scroll-reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-pink-50" data-category="bolo" style="transition-delay:.1s"><div class="relative overflow-hidden aspect-[4/3]"><img src="https://z-cdn-media.chatglm.cn/files/438558d4-5495-40d8-b4ff-9eeb0b3821cc.png?auth_key=1879973602-513d9a62f9fd4b228d250f817d59b456-0-9ded76ddeb7b8484016e36130687ed66" alt="Bolo no Pote de Morango" class="product-img w-full h-full object-cover transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></div><div class="p-6"><div class="flex items-center gap-2 mb-2"><span class="text-[10px] font-medium text-pink-500 uppercase tracking-wider">Bolo no Pote</span><span class="text-brown-300">•</span><span class="flex items-center gap-0.5 text-[10px] text-yellow-600"><i data-lucide="star" class="w-3 h-3 fill-yellow-500 text-yellow-500"></i> 4.8</span></div><h3 class="text-lg font-semibold text-brown-800 mb-1">Morango</h3><p class="text-sm text-brown-400 font-light mb-4">Bolo fofinho com morangos frescos e creme confeitado</p><div class="flex items-center justify-between"><div><span class="text-xl font-bold text-pink-500">R$ 14,00</span><span class="text-xs text-brown-400 ml-1">/ unidade</span></div><button onclick="addToCart('Bolo Morango',14)" class="w-10 h-10 bg-pink-50 hover:bg-pink-500 text-pink-500 hover:text-white rounded-xl flex items-center justify-center transition-all duration-300"><i data-lucide="plus" class="w-5 h-5"></i></button></div></div></div>
+
+                <!-- Trufa de Chocolate R$4 -->
+                <div class="product-card scroll-reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-pink-50" data-category="trufa" style="transition-delay:.2s"><div class="relative overflow-hidden aspect-[4/3]"><img src="https://z-cdn-media.chatglm.cn/files/4ddb6f3e-d467-4fcc-9224-f5df99845590.png?auth_key=1879976194-3a762b4c05b642dd83fb4cfca1ac7b87-0-b6235adae9790267a4a946e3bcaa91a9" alt="Trufa de Chocolate" class="product-img w-full h-full object-cover transition-transform duration-700"><div class="absolute top-4 left-4 bg-brown-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Novo</div><div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></div><div class="p-6"><div class="flex items-center gap-2 mb-2"><span class="text-[10px] font-medium text-pink-500 uppercase tracking-wider">Trufa Recheada</span><span class="text-brown-300">•</span><span class="flex items-center gap-0.5 text-[10px] text-yellow-600"><i data-lucide="star" class="w-3 h-3 fill-yellow-500 text-yellow-500"></i> 5.0</span></div><h3 class="text-lg font-semibold text-brown-800 mb-1">Chocolate</h3><p class="text-sm text-brown-400 font-light mb-4">Casca crocante de chocolate com recheio cremoso de ganache</p><div class="flex items-center justify-between"><div><span class="text-xl font-bold text-pink-500">R$ 4,00</span><span class="text-xs text-brown-400 ml-1">/ unidade</span></div><button onclick="addToCart('Trufa de Chocolate',4)" class="w-10 h-10 bg-pink-50 hover:bg-pink-500 text-pink-500 hover:text-white rounded-xl flex items-center justify-center transition-all duration-300"><i data-lucide="plus" class="w-5 h-5"></i></button></div></div></div>
+
+                <!-- Trufa de Leite Ninho R$4 -->
+                <div class="product-card scroll-reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-pink-50" data-category="trufa"><div class="relative overflow-hidden aspect-[4/3]"><img src="https://z-cdn-media.chatglm.cn/files/a9513d0f-885e-45da-add8-ffd8dc83ed7d.png?auth_key=1879976194-57dd64eef2854fc3a4d950f39170707b-0-4d5e735bd81614c10ac898774758bf9a" alt="Trufa de Leite Ninho" class="product-img w-full h-full object-cover transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></div><div class="p-6"><div class="flex items-center gap-2 mb-2"><span class="text-[10px] font-medium text-pink-500 uppercase tracking-wider">Trufa Recheada</span><span class="text-brown-300">•</span><span class="flex items-center gap-0.5 text-[10px] text-yellow-600"><i data-lucide="star" class="w-3 h-3 fill-yellow-500 text-yellow-500"></i> 4.9</span></div><h3 class="text-lg font-semibold text-brown-800 mb-1">Leite Ninho</h3><p class="text-sm text-brown-400 font-light mb-4">Chocolate ao leite com recheio cremoso de leite ninho</p><div class="flex items-center justify-between"><div><span class="text-xl font-bold text-pink-500">R$ 4,00</span><span class="text-xs text-brown-400 ml-1">/ unidade</span></div><button onclick="addToCart('Trufa de Leite Ninho',4)" class="w-10 h-10 bg-pink-50 hover:bg-pink-500 text-pink-500 hover:text-white rounded-xl flex items-center justify-center transition-all duration-300"><i data-lucide="plus" class="w-5 h-5"></i></button></div></div></div>
+
+                <!-- Bolo Ninho R$12 -->
+                <div class="product-card scroll-reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-pink-50" data-category="bolo" style="transition-delay:.1s"><div class="relative overflow-hidden aspect-[4/3]"><img src="https://z-cdn-media.chatglm.cn/files/84fff04f-5c92-409f-9812-ea845a685e93.png?auth_key=1879973602-253508718e094435be541a78c45aad31-0-d89ad7d95bd8c78e0a0d6ca29f86db9f" alt="Bolo no Pote de Leite Ninho" class="product-img w-full h-full object-cover transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></div><div class="p-6"><div class="flex items-center gap-2 mb-2"><span class="text-[10px] font-medium text-pink-500 uppercase tracking-wider">Bolo no Pote</span><span class="text-brown-300">•</span><span class="flex items-center gap-0.5 text-[10px] text-yellow-600"><i data-lucide="star" class="w-3 h-3 fill-yellow-500 text-yellow-500"></i> 4.7</span></div><h3 class="text-lg font-semibold text-brown-800 mb-1">Ninho</h3><p class="text-sm text-brown-400 font-light mb-4">Bolo de leite ninho com camadas de Nutella e aveia crocante</p><div class="flex items-center justify-between"><div><span class="text-xl font-bold text-pink-500">R$ 12,00</span><span class="text-xs text-brown-400 ml-1">/ unidade</span></div><button onclick="addToCart('Bolo Ninho',12)" class="w-10 h-10 bg-pink-50 hover:bg-pink-500 text-pink-500 hover:text-white rounded-xl flex items-center justify-center transition-all duration-300"><i data-lucide="plus" class="w-5 h-5"></i></button></div></div></div>
+
+                <!-- Trufa de Prestígio R$4 -->
+                <div class="product-card scroll-reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-pink-50" data-category="trufa" style="transition-delay:.2s"><div class="relative overflow-hidden aspect-[4/3]"><img src="https://z-cdn-media.chatglm.cn/files/d43e9fd7-83a7-44d6-b2c7-84b26e4c2b1f.png?auth_key=1879976194-aa6beecf76fb4e2985d16985ca3e05bc-0-102a08d52b4b6fdb68a539f0172371bd" alt="Trufa de Prestígio" class="product-img w-full h-full object-cover transition-transform duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></div><div class="p-6"><div class="flex items-center gap-2 mb-2"><span class="text-[10px] font-medium text-pink-500 uppercase tracking-wider">Trufa Recheada</span><span class="text-brown-300">•</span><span class="flex items-center gap-0.5 text-[10px] text-yellow-600"><i data-lucide="star" class="w-3 h-3 fill-yellow-500 text-yellow-500"></i> 4.8</span></div><h3 class="text-lg font-semibold text-brown-800 mb-1">Prestígio</h3><p class="text-sm text-brown-400 font-light mb-4">Chocolate ao leite com recheio cremoso de prestígio</p><div class="flex items-center justify-between"><div><span class="text-xl font-bold text-pink-500">R$ 4,00</span><span class="text-xs text-brown-400 ml-1">/ unidade</span></div><button onclick="addToCart('Trufa de Prestígio',4)" class="w-10 h-10 bg-pink-50 hover:bg-pink-500 text-pink-500 hover:text-white rounded-xl flex items-center justify-center transition-all duration-300"><i data-lucide="plus" class="w-5 h-5"></i></button></div></div></div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-pink-500 to-pink-700"></div>
+        <div class="absolute inset-0 opacity-10"><div class="absolute top-10 left-10 w-40 h-40 border-2 border-white rounded-full"></div><div class="absolute bottom-10 right-20 w-60 h-60 border-2 border-white rounded-full"></div><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-white rounded-full"></div></div>
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 scroll-reveal">
+            <span class="text-5xl mb-6 block">🎁</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4 tracking-tight">Kits Especiais para Presentear</h2>
+            <p class="text-pink-100 font-light text-lg mb-8 max-w-lg mx-auto">Monte seu kit personalizado com bolos no pote e trufas. Perfeito para surpreender quem você ama!</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="openModal()" class="bg-white text-pink-600 font-medium px-8 py-3.5 rounded-full hover:bg-pink-50 hover:scale-105 transition-all duration-300 text-sm flex items-center gap-2 shadow-lg"><i data-lucide="gift" class="w-4 h-4"></i> Montar Kit</button>
+                <a href="https://wa.me/5562984610025?text=Olá! Gostaria de saber mais sobre os kits especiais." target="_blank" class="bg-white/20 backdrop-blur-sm text-white border border-white/30 font-medium px-8 py-3.5 rounded-full hover:bg-white/30 hover:scale-105 transition-all duration-300 text-sm flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Avaliações -->
+    <section id="avaliacoes" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-reveal">
+                <div class="inline-flex items-center gap-2 bg-pink-50 rounded-full px-4 py-1.5 mb-4"><span class="text-xs font-medium text-pink-600 uppercase tracking-wider">Avaliações</span></div>
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-brown-900 mb-4">O que dizem nossos <span class="text-pink-500">clientes</span></h2>
+                <p class="text-brown-500 font-light max-w-lg mx-auto">A melhor propaganda é o sorriso de quem prova nossos doces</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="scroll-reveal glass-card rounded-3xl p-8 hover:shadow-lg transition-all duration-300"><div class="flex gap-1 mb-4"><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucicide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i></div><p class="text-brown-600 font-light leading-relaxed mb-6">"O bolo no pote de chocolate é DIVINO! Já pedi várias vezes e a qualidade é sempre impecável. A Mayza tem um dom especial!"</p><div class="flex items-center gap-3"><div class="w-10 h-10 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">A</div><div><div class="text-sm font-semibold text-brown-800">Ana Clara</div><div class="text-xs text-brown-400">Cliente desde 2023</div></div></div></div></div>
+                <div class="scroll-reveal glass-card rounded-3xl p-8 hover:shadow-lg transition-all duration-300" style="transition-delay:.1s"><div class="flex gap-1 mb-4"><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i></div><p class="text-brown-600 font-light leading-relaxed mb-6">"As trufas de leite ninho são viciantes! Comprei para presentear e acabei comendo quase todas antes de entregar 😂 Recomendo demais!"</p><div class="flex items-center gap-3"><div class="w-10 h-10 bg-gradient-to-br from-brown-400 to-brown-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">R</div><div><div class="text-sm font-semibold text-brown-800">Rafaela Mendes</div><div class="text-xs text-brown-400">Cliente desde 2024</div></div></div></div></div>
+                <div class="scroll-reveal glass-card rounded-3xl p-8 hover:shadow-lg transition-all duration-300" style="transition-delay:.2s"><div class="flex gap-1 mb-4"><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i><i data-lucide="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></i></div><p class="text-brown-600 font-light leading-relaxed mb-6">"Montei um kit para o aniversário da minha mãe e ela amou! A embalagem é linda e os doces, então... nem se fala. Perfeito!"</p><div class="flex items-center gap-3"><div class="w-10 h-10 bg-gradient-to-br from-pink-300 to-brown-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">L</div><div><div class="text-sm font-semibold text-brown-800">Lucas Ferreira</div><div class="text-xs text-brown-400">Cliente desde 2023</div></div></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contato" class="py-24 bg-cream relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div class="scroll-reveal">
+                    <div class="inline-flex items-center gap-2 bg-pink-50 rounded-full px-4 py-1.5 mb-4"><span class="text-xs font-medium text-pink-600 uppercase tracking-wider">Contato</span></div>
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-brown-900 mb-4">Vamos conversar? <span class="text-pink-500">♥</span></h2>
+                    <p class="text-brown-500 font-light leading-relaxed mb-10">Tire suas dúvidas, faça encomendas especiais ou só mande um alô. Estamos sempre prontas para te atender!</p>
+                    <div class="space-y-6">
+                        <a href="https://wa.me/5562984610025" target="_blank" class="flex items-center gap-4 group"><div class="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-green-200 transition-colors"><i data-lucide="message-circle" class="w-5 h-5 text-green-600"></i></div><div><div class="text-sm font-medium text-brown-400 mb-0.5">WhatsApp</div><div class="text-base font-semibold text-brown-800">(62) 98461-0025</div></div></a>
+                        <a href="https://www.instagram.com/docesdamay5/#" target="_blank" class="flex items-center gap-4 group"><div class="w-12 h-12 bg-pink-100 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-pink-200 transition-colors"><i data-lucide="instagram" class="w-5 h-5 text-pink-500"></i></div><div><div class="text-sm font-medium text-brown-400 mb-0.5">Instagram</div><div class="text-base font-semibold text-brown-800">@docesdamay5</div></div></a>
+                    </div>
+                </div>
+                <div class="scroll-reveal" style="transition-delay:.2s">
+                    <form id="contact-form" onsubmit="submitForm(event)" class="bg-white rounded-3xl p-8 shadow-sm border border-pink-50">
+                        <div class="space-y-5">
+                            <div><label class="text-sm font-medium text-brown-700 mb-1.5 block">Seu Nome</label><input type="text" required placeholder="Como podemos te chamar?" class="w-full px-4 py-3 rounded-xl border border-brown-200 bg-cream/50 text-brown-800 placeholder-brown-300 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 transition-all"></div>
+                            <div><label class="text-sm font-medium text-brown-700 mb-1.5 block">WhatsApp</label><input type="tel" required placeholder="(00) 00000-0000" class="w-full px-4 py-3 rounded-xl border border-brown-200 bg-cream/50 text-brown-800 placeholder-brown-300 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 transition-all"></div>
+                            <div><label class="text-sm font-medium text-brown-700 mb-1.5 block">Tipo de Pedido</label><select required class="w-full px-4 py-3 rounded-xl border border-brown-200 bg-cream/50 text-brown-800 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 transition-all appearance-none"><option value="" disabled selected>Selecione uma opção</option><option>Bolo no Pote</option><option>Trufas Recheadas</option><option>Kit Especial</option><option>Encomenda Personalizada</option><option>Outro</option></select></div>
+                            <div><label class="text-sm font-medium text-brown-700 mb-1.5 block">Mensagem</label><textarea required rows="4" placeholder="Conte-nos mais sobre o que você deseja..." class="w-full px-4 py-3 rounded-xl border border-brown-200 bg-cream/50 text-brown-800 placeholder-brown-300 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 transition-all resize-none"></textarea></div>
+                            <button type="submit" class="btn-primary w-full text-white font-medium py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm"><i data-lucide="send" class="w-4 h-4"></i> Enviar Mensagem</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brown-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div><img src="https://z-cdn-media.chatglm.cn/files/d9351d99-d8a1-49c9-85f5-90b23370e66f.png?auth_key=1879971177-2e6c197e94714cb8956a59ea4f7b6bf5-0-01c05c7a1be1ec35684827fcff9e247e" alt="Doces da May" class="h-20 w-auto mb-4 rounded-full"><p class="text-brown-300 font-light text-sm leading-relaxed">Doces artesanais feitos com amor, para tornar seus momentos ainda mais especiais.</p></div>
+                <div><h4 class="font-semibold text-sm uppercase tracking-wider text-brown-300 mb-4">Navegação</h4><div class="space-y-2.5"><a href="#sobre" class="block text-sm text-brown-400 hover:text-pink-400 transition-colors">Sobre Nós</a><a href="#produtos" class="block text-sm text-brown-400 hover:text-pink-400 transition-colors">Produtos</a><a href="#avaliacoes" class="block text-sm text-brown-400 hover:text-pink-400 transition-colors">Avaliações</a><a href="#contato" class="block text-sm text-brown-400 hover:text-pink-400 transition-colors">Contato</a></div></div>
+                <div><h4 class="font-semibold text-sm uppercase tracking-wider text-brown-300 mb-4">Redes Sociais</h4><div class="space-y-3"><a href="https://www.instagram.com/docesdamay5/#" target="_blank" class="flex items-center gap-3 text-sm text-brown-400 hover:text-pink-400 transition-colors group"><div class="w-9 h-9 bg-brown-800 group-hover:bg-pink-500 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></div>@docesdamay5</a><a href="https://wa.me/5562984610025" target="_blank" class="flex items-center gap-3 text-sm text-brown-400 hover:text-green-400 transition-colors group"><div class="w-9 h-9 bg-brown-800 group-hover:bg-green-500 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="message-circle" class="w-4 h-4"></i></div>WhatsApp</a></div></div></div>
+            </div>
+            <div class="border-t border-brown-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-brown-500">© 2025 Doceria da May. Todos os direitos reservados.</p>
+                <p class="text-xs text-brown-500">Feito com <span class="text-pink-500">♥</span> e muito chocolate</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Cart -->
+    <button id="floating-cart" onclick="openModal()">
+        <div class="relative"><div class="w-14 h-14 bg-pink-500 hover:bg-pink-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"><i data-lucide="shopping-cart" class="w-6 h-6 text-white"></i></div><div id="cart-badge" class="cart-badge absolute -top-2 -right-2 w-6 h-6 bg-brown-800 text-white text-[11px] font-bold rounded-full flex items-center justify-center shadow-md border-2 border-cream">0</div></div>
+        <div class="mt-2 text-center"><span id="floating-total" class="text-xs font-bold text-brown-800 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 shadow-sm border border-pink-100">R$ 0,00</span></div>
+    </button>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/5562984610025?text=Olá! Gostaria de fazer um pedido." target="_blank" class="whatsapp-float w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-all duration-300"><i data-lucide="message-circle" class="w-6 h-6 text-white"></i></a>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"><div class="bg-white rounded-2xl shadow-2xl border border-pink-100 p-4 flex items-center gap-3 max-w-xs"><div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-5 h-5 text-pink-500"></i></div><div><div class="text-sm font-semibold text-brown-800" id="toast-title">Adicionado!</div><div class="text-xs text-brown-400" id="toast-message">Produto adicionado ao pedido</div></div></div></div>
+
+    <!-- Order Modal -->
+    <div id="order-modal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-content bg-white rounded-3xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="flex items-center justify-between mb-6"><h3 class="text-xl font-bold text-brown-900">Seu Pedido</h3><button onclick="closeModal()" class="w-8 h-8 bg-brown-100 hover:bg-brown-200 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="x" class="w-4 h-4 text-brown-600"></i></button></div>
+            <div id="cart-items" class="space-y-3 mb-6"><div id="empty-cart" class="text-center py-8"><span class="text-4xl block mb-3">🛒</span><p class="text-brown-400 text-sm">Seu carrinho está vazio</p><p class="text-brown-300 text-xs mt-1">Adicione produtos pelo cardápio</p></div></div>
+        
+            <!-- Formulário de Checkout -->
+            <form id="checkout-form" class="space-y-4 bg-pink-50 p-6 rounded-lg shadow-md">
+              <div>
+                <label for="nome" class="block text-pink-700 font-semibold">Nome</label>
+                <input type="text" id="nome" required
+                  class="w-full px-4 py-2 border border-pink-200 rounded-md focus:ring-2 focus:ring-pink-400"
+                  placeholder="Seu nome">
+              </div>
+
+              <div>
+                <label for="telefone" class="block text-pink-700 font-semibold">Telefone</label>
+                <input type="text" id="telefone" required
+                  class="w-full px-4 py-2 border border-pink-200 rounded-md focus:ring-2 focus:ring-pink-400"
+                  placeholder="(62) 9XXXX-XXXX">
+              </div>
+
+              <div>
+                <label for="endereco" class="block text-pink-700 font-semibold">Endereço</label>
+                <input type="text" id="endereco" required
+                  class="w-full px-4 py-2 border border-pink-200 rounded-md focus:ring-2 focus:ring-pink-400"
+                  placeholder="Rua, número, bairro">
+              </div>
+
+              <div>
+                <label for="pagamento" class="block text-pink-700 font-semibold">Forma de pagamento</label>
+                <select id="pagamento" required
+                  class="w-full px-4 py-2 border border-pink-200 rounded-md focus:ring-2 focus:ring-pink-400">
+                  <option value="">Selecione...</option>
+                  <option value="Pix">Pix</option>
+                  <option value="Cartão">Cartão</option>
+                  <option value="Dinheiro">Dinheiro</option>
+                </select>
+              </div>
+
+              <div id="cash-change-section" class="hidden space-y-4">
+                <div>
+                  <span class="block text-pink-700 font-semibold">Você precisará de troco?</span>
+                  <div class="flex gap-4 mt-2">
+                    <label class="inline-flex items-center gap-2 text-sm text-brown-700"><input type="radio" name="need_change" value="sim"> Sim</label>
+                    <label class="inline-flex items-center gap-2 text-sm text-brown-700"><input type="radio" name="need_change" value="nao"> Não</label>
+                  </div>
+                </div>
+                <div id="cash-amount-row" class="hidden">
+                  <label for="cash-amount" class="block text-pink-700 font-semibold">Valor que será pago</label>
+                  <input type="number" id="cash-amount" min="0" step="0.01" inputmode="decimal"
+                    class="w-full px-4 py-2 border border-pink-200 rounded-md focus:ring-2 focus:ring-pink-400"
+                    placeholder="20,00">
+                </div>
+                <div id="change-result" class="hidden text-sm text-brown-600"></div>
+              </div>
+
+              <button type="submit"
+                class="w-full bg-pink-500 text-white font-bold py-2 px-4 rounded-md hover:bg-pink-600 transition">
+                Finalizar Pedido
+              </button>
+            </form>
+
+            <div id="cart-total" class="hidden border-t border-brown-100 pt-4 mb-6"><div class="flex justify-between items-center"><span class="text-sm font-medium text-brown-500">Total</span><span class="text-2xl font-bold text-pink-500" id="total-value">R$ 0,00</span></div></div>
+            <button onclick="clearCart()" id="clear-cart-btn" class="hidden w-full text-brown-400 hover:text-red-500 font-medium py-2.5 rounded-xl flex items-center justify-center gap-2 text-xs transition-colors mt-2"><i data-lucide="trash-2" class="w-3 h-3"></i> Limpar carrinho</button>
+        </div>
+    </div>
+
+    <script>
+    lucide.createIcons();
+
+    // ==================== GAME ====================
+    const dropZone=document.getElementById('drop-zone'),decoCountEl=document.getElementById('deco-count'),gameMsgEl=document.getElementById('game-message');
+    let decoCount=0,isDragging=false,floatingEl=null,dragSource=null,dragTopping='';
+    const messages=[{min:0,msg:'👆 Arraste os doces para o bolo!'},{min:1,msg:'😊 Ficando bonito!'},{min:3,msg:'🤤 Que delícia!'},{min:5,msg:'😍 Que obra de arte!'},{min:8,msg:'🏆 Confeiteiro profissional!'},{min:12,msg:'👑 Mestre da confeitaria!'},{min:16,msg:'✨ Lenda viva dos doces!'}];
+    function updateGameMsg(){let msg=messages[0].msg;for(const m of messages)if(decoCount>=m.min)msg=m.msg;gameMsgEl.textContent=msg}
+    function spawnConfetti(x,y){const c=['✨','💖','⭐','🌟'];for(let i=0;i<4;i++){const el=document.createElement('div');el.className='confetti-particle';el.textContent=c[Math.floor(Math.random()*c.length)];el.style.left=(x+(Math.random()-.5)*40)+'px';el.style.top=(y+(Math.random()-.5)*20)+'px';dropZone.appendChild(el);setTimeout(()=>el.remove(),800)}}
+    function placeTopping(x,y,emoji){const el=document.createElement('div');el.className='placed-topping';el.textContent=emoji;el.style.left=x+'px';el.style.top=y+'px';el.dataset.emoji=emoji;el.addEventListener('mousedown',e=>startDragPlaced(e,el));el.addEventListener('touchstart',e=>startDragPlaced(e,el),{passive:false});el.addEventListener('dblclick',()=>{el.style.transform='scale(0) rotate(20deg)';el.style.opacity='0';el.style.transition='all .3s ease';setTimeout(()=>{el.remove();decoCount--;decoCountEl.textContent=decoCount;updateGameMsg()},300)});dropZone.appendChild(el);decoCount++;decoCountEl.textContent=decoCount;updateGameMsg();spawnConfetti(x,y)}
+    function getPos(e){if(e.touches&&e.touches.length>0)return{x:e.touches[0].clientX,y:e.touches[0].clientY};if(e.changedTouches&&e.changedTouches.length>0)return{x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY};return{x:e.clientX,y:e.clientY}}
+    function startDragFromTray(e){e.preventDefault();const btn=e.currentTarget;dragTopping=btn.dataset.topping;dragSource='tray';const pos=getPos(e);floatingEl=document.createElement('div');floatingEl.className='floating-emoji';floatingEl.textContent=dragTopping;floatingEl.style.left=(pos.x-24)+'px';floatingEl.style.top=(pos.y-24)+'px';document.body.appendChild(floatingEl);btn.classList.add('selected');dropZone.classList.add('drag-over');isDragging=true}
+    function startDragPlaced(e,el){e.preventDefault();e.stopPropagation();dragTopping=el.dataset.emoji;dragSource=el;el.classList.add('dragging-placed');const pos=getPos(e);floatingEl=document.createElement('div');floatingEl.className='floating-emoji';floatingEl.textContent=dragTopping;floatingEl.style.left=(pos.x-24)+'px';floatingEl.style.top=(pos.y-24)+'px';document.body.appendChild(floatingEl);dropZone.classList.add('drag-over');isDragging=true}
+    function onDragMove(e){if(!isDragging||!floatingEl)return;e.preventDefault();const pos=getPos(e);floatingEl.style.left=(pos.x-24)+'px';floatingEl.style.top=(pos.y-24)+'px'}
+    function onDragEnd(e){if(!isDragging)return;isDragging=false;dropZone.classList.remove('drag-over');document.querySelectorAll('.topping-btn').forEach(b=>b.classList.remove('selected'));const pos=getPos(e),rect=dropZone.getBoundingClientRect(),inZone=pos.x>=rect.left&&pos.x<=rect.right&&pos.y>=rect.top&&pos.y<=rect.bottom;if(inZone){placeTopping(pos.x-rect.left-14,pos.y-rect.top-14,dragTopping);if(dragSource!=='tray'&&dragSource.remove)dragSource.remove()}else if(dragSource!=='tray'&&dragSource!==null&&dragSource.classList){dragSource.style.transform='scale(0)';dragSource.style.opacity='0';dragSource.style.transition='all .2s ease';setTimeout(()=>{dragSource.remove();decoCount--;decoCountEl.textContent=decoCount;updateGameMsg()},200)}if(dragSource!=='tray'&&dragSource&&dragSource.classList)dragSource.classList.remove('dragging-placed');if(floatingEl){floatingEl.remove();floatingEl=null}dragSource=null;dragTopping=''}
+    document.querySelectorAll('.topping-btn').forEach(btn=>{btn.addEventListener('mousedown',startDragFromTray);btn.addEventListener('touchstart',startDragFromTray,{passive:false})});
+    document.addEventListener('mousemove',onDragMove);document.addEventListener('mouseup',onDragEnd);document.addEventListener('touchmove',onDragMove,{passive:false});document.addEventListener('touchend',onDragEnd);
+    function resetGame(){dropZone.querySelectorAll('.placed-topping,.confetti-particle').forEach(el=>el.remove());decoCount=0;decoCountEl.textContent=0;updateGameMsg()}
+
+    // ==================== SITE ====================
+    function toggleMobileMenu(){document.getElementById('mobile-menu').classList.toggle('hidden')}
+    function closeMobileMenu(){document.getElementById('mobile-menu').classList.add('hidden')}
+    window.addEventListener('scroll',()=>{document.getElementById('navbar').style.boxShadow=window.scrollY>50?'0 4px 20px rgba(62,39,35,.08)':'none'});
+    const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+    document.querySelectorAll('.scroll-reveal').forEach(el=>observer.observe(el));
+    function filterProducts(cat){document.querySelectorAll('.filter-btn').forEach(b=>{b.className=b.dataset.filter===cat?'filter-btn active-filter text-sm font-medium px-6 py-2.5 rounded-full transition-all duration-300 bg-pink-500 text-white':'filter-btn text-sm font-medium px-6 py-2.5 rounded-full transition-all duration-300 bg-white text-brown-600 border border-brown-200 hover:border-pink-300 hover:text-pink-500'});document.querySelectorAll('.product-card').forEach(c=>{if(cat==='todos'||c.dataset.category===cat){c.style.display='';c.style.opacity='0';c.style.transform='translateY(20px)';requestAnimationFrame(()=>{c.style.transition='all .5s ease';c.style.opacity='1';c.style.transform='translateY(0)'})}else{c.style.display='none'}})}
+
+    const floatingCart=document.getElementById('floating-cart'),cartBadge=document.getElementById('cart-badge'),floatingTotal=document.getElementById('floating-total');
+    let cart=[];
+    function updateFloatingCart(){const tq=cart.reduce((s,i)=>s+i.qty,0),tv=cart.reduce((s,i)=>s+i.price*i.qty,0);cartBadge.textContent=tq;floatingTotal.textContent=`R$ ${tv.toFixed(2).replace('.',',')}`;cart.length>0?floatingCart.classList.add('visible'):floatingCart.classList.remove('visible')}
+    function bounceFloatingCart(){floatingCart.classList.remove('bounce');void floatingCart.offsetWidth;floatingCart.classList.add('bounce');cartBadge.classList.remove('cart-badge');void cartBadge.offsetWidth;cartBadge.classList.add('cart-badge')}
+    function addToCart(name,price){const e=cart.find(i=>i.name===name);if(e)e.qty++;else cart.push({name,price,qty:1});updateCartUI();updateFloatingCart();bounceFloatingCart();showToast('Adicionado!',`${name} adicionado ao pedido`)}
+    function removeFromCart(i){cart.splice(i,1);updateCartUI();updateFloatingCart()}
+    function clearCart(){cart=[];updateCartUI();updateFloatingCart()}
+    function updateCartUI(){const ci=document.getElementById('cart-items'),ct=document.getElementById('cart-total'),cb=document.getElementById('clear-cart-btn'),tv=document.getElementById('total-value');if(!cart.length){ci.innerHTML='<div class="text-center py-8"><span class="text-4xl block mb-3">🛒</span><p class="text-brown-400 text-sm">Seu carrinho está vazio</p><p class="text-brown-300 text-xs mt-1">Adicione produtos pelo cardápio</p></div>';ct.classList.add('hidden');cb.classList.add('hidden');return}let h='',t=0;cart.forEach((item,i)=>{t+=item.price*item.qty;h+=`<div class="flex items-center justify-between p-3 bg-pink-50/50 rounded-xl border border-pink-100"><div class="flex-1"><div class="text-sm font-medium text-brown-800">${item.name}</div><div class="text-xs text-brown-400">R$ ${item.price.toFixed(2).replace('.',',')} × ${item.qty}</div></div><div class="flex items-center gap-2"><span class="text-sm font-bold text-pink-500">R$ ${(item.price*item.qty).toFixed(2).replace('.',',')}</span><button onclick="removeFromCart(${i})" class="w-7 h-7 bg-red-50 hover:bg-red-100 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="x" class="w-3 h-3 text-red-400"></i></button></div></div>`});ci.innerHTML=h;tv.textContent=`R$ ${t.toFixed(2).replace('.',',')}`;ct.classList.remove('hidden');cb.classList.remove('hidden');lucide.createIcons()}
+    function openModal(){document.getElementById('order-modal').classList.add('active');document.body.style.overflow='hidden';lucide.createIcons()}
+    function closeModal(){document.getElementById('order-modal').classList.remove('active');document.body.style.overflow=''}
+    function closeModalOutside(e){if(e.target===document.getElementById('order-modal'))closeModal()}
+    function sendWhatsAppOrder(){if(!cart.length)return;let m='🍩 *Pedido - Doceria da May*\n\n',t=0;cart.forEach(i=>{const s=i.price*i.qty;t+=s;m+=`• ${i.name} (x${i.qty}) - R$ ${s.toFixed(2).replace('.',',')}\n`});m+=`\n💰 *Total: R$ ${t.toFixed(2).replace('.',',')}*\n\nObrigada! 💖`;window.open(`https://wa.me/5562984610025?text=${encodeURIComponent(m)}`,'_blank')}
+    function showToast(title,message){const t=document.getElementById('toast');document.getElementById('toast-title').textContent=title;document.getElementById('toast-message').textContent=message;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+    function submitForm(e){e.preventDefault();const f=e.target;window.open(`https://wa.me/5562984610025?text=${encodeURIComponent(`Olá! Meu nome é ${f.querySelector('input[type="text"]').value}.\n\nTelefone: ${f.querySelector('input[type="tel"]').value}\nTipo: ${f.querySelector('select').value}\n\n${f.querySelector('textarea').value}`)}`,'_blank');showToast('Mensagem enviada!','Redirecionando para WhatsApp...');f.reset()}
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+    </script>
+    <script src="./checkout.js"></script>
+</body>
+</html>
